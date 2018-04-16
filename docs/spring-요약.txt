@@ -1,0 +1,67 @@
+1. /src       -> /src/main/java
+2. WebContent -> webapp
+3. web.xml(DispatcherServlet mapping, Listener, Filter)
+4. configure -> Convert to Maven Projejct
+   이유: pom.xml
+      1. 라이브러리 의존성 해결
+      2. 컴파일 (.java -> .class)
+      3. 빌드   (project -> project.war)
+      4. 배포
+ 
+
+   1. groupid : co.kr.dhflour    
+   
+
+5. web.xml 설정
+   1. servlet  -> 프론트 컨트롤 등록 + 최초요청=init() 실행시=서블릿 초기화 (컨테이너 생성, Web Application Context)
+   2. filter   -> 한글처리
+   3. listener -> contextInitialized() 애플리케이션 초기화 작업 (컨테이너 생성, Root Application Context)
+
+6. 5-3 컨테이너 설정 파일(applicationContext.xml)
+   
+7. 5-1 DispatcherServlet와 URL 매핑( / -> 모든 요청 /mysite3/..... )
+   5-1 컨테이너 설정 파일(서블릿이름(spring) + "-servlet.xml" )    
+
+/src/main/java
+  kr.co.dhflour.mysite.repository
+      UserDao.java
+/src/main/resources      
+  mybatis
+      configuration.xml
+
+
+====================================================
+
+tomcat
+  |_______ config
+  |_______ webapps
+             |_______ project.war
+             |_______ project
+                        /
+                        |______hello.html
+                        |_____ META-INF
+                        |_____ WEB-INF
+                                  |_____ lib
+                                  |_____ views
+                                  |_____ classes
+                                            |__mybatis
+                                               |__ configuration.xml
+                                               |__ mappers
+                                                     |___ user.xml
+                                            |_ kr
+                                               |__  co
+                                                    |__ dhflour
+                                                           |___ mysite
+                                                                  |____ repository
+                                                                  |         |------- UserDao.class
+                                                                  |         |------- GuestbookDao.class
+                                                                  |         |_______ BoardDao.class
+                                                                  |____ vo
+                                                                  |      |----- UserVo.class
+                                                                  |      |----- GuestbookVo.class     
+                                                                  |      |_____ BoardVo.class
+                                                                  |
+                                                                  |____ controller
+                                                                         |----- MainController.class     
+                                  
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="grid">
+	<update id="update" parameterType="gridVo">
+		<![CDATA[
+			UPDATE CLIENT
+			       SET name = #{name }, 
+						age = #{age },
+						country = #{country },
+						address = #{address },
+						married = #{married }
+		     WHERE NO = #{no }
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			DELETE 
+			FROM CLIENT 
+			WHERE NO = #{no }
+		]]>
+	</delete>
+
+	<insert id="insert" parameterType="gridVo">
+		<selectKey keyProperty="no" resultType="long" order="BEFORE">
+			<![CDATA[
+			select seq_client.nextval from dual
+			]]>
+		</selectKey>
+		
+		<![CDATA[
+		  INSERT INTO CLIENT
+		  VALUES (#{no }, #{name }, #{age }, #{country }, #{address }, #{married } )
+		]]>
+	</insert>
+	
+	<select id="getList" resultType="gridvo" >
+		<![CDATA[
+		  SELECT NO, 
+		         NAME, 
+		         AGE, 
+		         COUNTRY, 
+		         ADDRESS, 
+		         MARRIED
+		    FROM CLIENT
+		ORDER BY NO DESC
+		]]>
+	</select>
+	
+</mapper>

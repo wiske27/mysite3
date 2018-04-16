@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook">
+
+	<select id="getByNo" resultType="guestbookvo" parameterType="long">
+		<![CDATA[
+		  select no, 
+			     name, 
+			     to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') as regDate, 
+			     contents
+		    from guestbook 
+		    where no=#{no}
+		]]>
+	</select>
+
+	<select id="getList" resultType="guestbookvo">
+		<![CDATA[
+		  select no, 
+			     name, 
+			     to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') as regDate, 
+			     contents
+		    from guestbook 
+	    order by reg_date desc	
+		]]>
+	</select>
+
+	<select id="getList2" parameterType="long" resultType="guestbookvo">
+		<![CDATA[
+		select a.*
+		  from ( select  no,
+                         name,
+                         contents,
+                         to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') regDate
+                    from guestbook
+        ]]>
+		<if test="_parameter > 0">
+        		   <![CDATA[ 
+                   where no < #{_parameter }
+                   ]]>
+		</if>
+        <![CDATA[           
+                order by no desc) a
+         where rownum <= 5	
+		]]>
+	</select>
+
+	<insert id="insert" parameterType="guestbookvo">
+		<selectKey keyProperty="no" resultType="long" order="BEFORE">
+			<![CDATA[
+			select seq_guestbook.nextval from dual
+			]]>
+		</selectKey>
+	
+		<![CDATA[
+		insert 
+		  into guestbook 
+		values (#{no }, #{name }, #{password }, sysdate, #{contents })
+		]]>
+
+	</insert>
+
+	<delete id="delete" parameterType="guestbookvo">
+		<![CDATA[
+		delete
+		  from guestbook
+		 where no=#{no }
+		   and password=#{password }
+		]]>
+	</delete>
+
+
+</mapper>
